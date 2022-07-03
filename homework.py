@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict
 from typing import Sequence, Dict, Tuple, List, Type
-
+from typing import ClassVar
 
 @dataclass
 class InfoMessage:
@@ -10,7 +10,7 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    message: str = ('Тип тренировки: {training_type}; '
+    message: ClassVar[str] = ('Тип тренировки: {training_type}; '
                     'Длительность: {duration:.3f} ч.; '
                     'Дистанция: {distance:.3f} км; '
                     'Ср. скорость: {speed:.3f} км/ч; '
@@ -131,7 +131,7 @@ class Swimming(Training):
         return mean_speed_and_coeff * self.SWM_COEFF_2 * self.weight
 
 
-def read_package(workout_type: str, data: Sequence[int]) -> Training:
+def read_package(workout_type: str, data: Sequence[float]) -> Training:
     """Прочитать данные полученные от датчиков."""
     title_of_the_workout = Dict[str, Type[Training]]
 
@@ -153,7 +153,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: Sequence[Tuple[str, List[int]]] = [
+    packages: Sequence[Tuple[str, List[float]]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
